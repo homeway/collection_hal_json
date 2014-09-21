@@ -93,28 +93,30 @@ items
 如果选择了`collection`模式，意味着`_embedded`中应包含的`items`来表示资源列表。
 
 ```json
-...
-"_embedded":{
-  "m:items":[
-    {
-      "_links":{"self": { "href": "/customers/101" }},
-      "m:schema": "resource",
-      "m:properties":{
-        "id": 101,
-        "name": "adi", 
-        "email": "adi@gmail.com"}},
-    {
-      "_links":{"self": { "href": "/customers/102" }},
-      "m:schema": "resource",
-      "m:properties":{
-        "id": 102,
-        "name": "adi", 
-        "email": "adi@gmail.com"}
-    },
-    ...
-  ]
+{
+  ...
+  "_embedded":{
+    "m:items":[
+      {
+        "_links":{"self": { "href": "/customers/101" }},
+        "m:schema": "resource",
+        "m:properties":{
+          "id": 101,
+          "name": "adi", 
+          "email": "adi@gmail.com"}},
+      {
+        "_links":{"self": { "href": "/customers/102" }},
+        "m:schema": "resource",
+        "m:properties":{
+          "id": 102,
+          "name": "adi", 
+          "email": "adi@gmail.com"}
+      },
+      ...
+    ]
+  }
+  ...
 }
-...
 ```
 
 请注意，上面的例子中，被嵌入的资源除了已经指定的`self`链接关系，还包含了两个默认的链接关系：`update`、`delete`。其中`update`所需要的表单，默认是使用最外围`m:forms`中所提供的有效表单。
@@ -124,19 +126,21 @@ properties
 如果选择了`resource`，则应提供`properties`来描述资源本身的属性。
 
 ```json
-"_links":{
-  "self": { "href": "/customers/102" },
-  "curies": [{ 
-    "name": "m", 
-    "href": "http://hotmoon.org/docs/rels/collection#{rel}", 
-    "templated": true }]},
-"m:schema": "resource",
-"m:forms":{
-  },
-"m:properties":{
-  "id": 102,
-  "name": "adi", 
-  "email": "adi@gmail.com"}
+{
+  "_links":{
+    "self": { "href": "/customers/102" },
+    "curies": [{ 
+      "name": "m", 
+      "href": "http://hotmoon.org/docs/rels/collection#{rel}", 
+      "templated": true }]},
+  "m:schema": "resource",
+  "m:forms":{
+    },
+  "m:properties":{
+    "id": 102,
+    "name": "adi", 
+    "email": "adi@gmail.com"}
+}
 ```
 
 actions
@@ -146,10 +150,11 @@ actions
 <br/>服务端在提供这个选项时还可以建立在授权机制的基础上。
 
 ```json
-"{action}": {
-  "href": "resource_uir",
-  "method": "http_verb",
-  "title": "a title"
+{
+  "{action}": {
+    "href": "resource_uir",
+    "method": "http_verb",
+    "title": "a title"}
 }
 ```
 
@@ -173,13 +178,16 @@ actions
 下面的例子说明，集合中还有两个额外的action：
 
 ```json
-"m:actions":{
-  "modify_password": {
-    "href": "/customers/102/modify_password",
-    "method": "patch"},
-  "modify_profile": {
-    "href": "/customers/102/modify_profile",
-    "method": "patch"}}
+{
+  ...
+  "m:actions":{
+    "modify_password": {
+      "href": "/customers/102/modify_password",
+      "method": "patch"},
+    "modify_profile": {
+      "href": "/customers/102/modify_profile",
+      "method": "patch"}}
+}
 ```
 
 ###href
@@ -196,10 +204,13 @@ forms
 如果存在http的动作为`post`、`put`或`patch`等不安全的方法，则需要实现这个字段，否则客户端将无法自动判断需要填写的表单类型。
 
 ```json
-"{action_form}": {
-  "{filed}": {"type":"", title":"", "value":""}, 
-  "{filed}": {"type":"", "title":"", "value":""}, 
-  ...}
+{
+  "{action_form}": {
+    "{filed}": {"type":"", title":"", "value":""}, 
+    "{filed}": {"type":"", "title":"", "value":""}, 
+    ...
+    }
+}
 ```
 
 ###{action_form}
