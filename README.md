@@ -21,7 +21,7 @@ GET "/customers"
     "form": {
       "name": {"type":"text"}, 
       "email": {"type":"email"}}
-  }
+  },
   "m:actions": {"create":{}},
   "_embedded":{
     "m:items":[]
@@ -51,7 +51,7 @@ GET "/customers/1"
     "update": {
       "name": {"type":"text"}, 
       "email": {"type":"email"}}
-  }
+  },
   "m:actions": {"delete":{}, "update":{}},
   "m:properties":{
     "name": "adi", 
