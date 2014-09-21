@@ -127,15 +127,7 @@ properties
 
 ```json
 {
-  "_links":{
-    "self": { "href": "/customers/102" },
-    "curies": [{ 
-      "name": "m", 
-      "href": "http://hotmoon.org/docs/rels/collection#{rel}", 
-      "templated": true }]},
-  "m:schema": "resource",
-  "m:forms":{
-    },
+  ...
   "m:properties":{
     "id": 102,
     "name": "adi", 
@@ -172,7 +164,10 @@ actions
 下面的例子对集合作了只读配置：
 
 ```json
-"m:actions": {}
+{
+  ...
+  "m:actions": {}
+}
 ```
 
 下面的例子说明，集合中还有两个额外的action：
@@ -206,7 +201,7 @@ forms
 ```json
 {
   "{action_form}": {
-    "{filed}": {"type":"", title":"", "value":""}, 
+    "{filed}": {"type":"", "title":"", "value":""}, 
     "{filed}": {"type":"", "title":"", "value":""}, 
     ...
     }
@@ -221,8 +216,19 @@ forms
 
 如果某个链接关系需要特定的表单，则可以将`form`改为自己的动作名称，例如`create`、`put`。这样就可以拥有一个独立的表单了。
 
-实际上，HAL中指定的链接关系`self`也被扩展了，用来描述读取集合或资源的方法。
-与actions中的其他方法一样，在forms中可以指定`self`的元数据描述。这有助于在展现列表或只读表单时编写智能的客户端代码。
+实际上，HAL中指定的链接关系`self`也被扩展了。与其他方法一样，可以指定`self`的元数据描述。这有助于在展现列表或只读表单时编写智能的客户端代码。
+
+```json
+  {
+    ...
+    "m:forms": {
+      "self": {
+        "id": {"title": "ID"},
+        "name": {"title":"名称"}, 
+        "email": {"title":"邮件", "type":"email"}}
+    },
+  }
+```
 
 ###{filed}
 用户根据业务定义的、机器可读的字段名。
