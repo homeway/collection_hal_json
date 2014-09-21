@@ -3,8 +3,8 @@
 
 相关链接：
 
-* [HAL语义说明]<http://stateless.co/hal_specification.html>
-* [HAL开发包]<https://github.com/mikekelly/hal_specification/wiki/Libraries>
+* [HAL语义说明](http://stateless.co/hal_specification.html)
+* [HAL开发包](https://github.com/mikekelly/hal_specification/wiki/Libraries)
 
 在不破坏HAL优雅结构的情况下，我定义了一种通用的profile来表达集合的语义。
 <br/>使用这些关键字，最简单的方法是使用`curies`语法。
