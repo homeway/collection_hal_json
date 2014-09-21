@@ -1,0 +1,50 @@
+<?xml version="1.0">
+<alps>
+  <link rel="self" href="http://hotmoon.org/docs/rels/collection"/>
+  <link rel="help" href="https://github.com/homeway/collection_hal_json/blob/master/README.md"/>
+
+  <doc format="html"> A collection define with HAL and json</doc>
+
+  <descriptor id="schema" type="semantic">
+    <doc> the value is collection or resource</doc>
+  </descriptor>
+
+  <descriptor id="items" type="semantic">
+    <doc> must be supply if the schema is collection</doc>
+  </descriptor>
+
+  <descriptor id="properties" type="semantic">
+    <doc> must be supply if the schema is resource</doc>
+  </descriptor>
+
+  <descriptor id="actions" type="semantic">
+    <doc> link relation for the collection or resource, such as create or update</doc>
+  </descriptor>
+  
+  <descriptor id="forms" type="semantic">
+    <doc> form fields description for create or update</doc>
+  </descriptor>
+
+  <descriptor id="create" type="unsafe">
+    <doc> add a new resource to collection, use post method</doc>
+  </descriptor>
+  
+  <descriptor id="update" type="idempotent">
+    <doc> update the resource, use put method</doc>
+  </descriptor>
+  
+  <descriptor id="delete" type="idempotent">
+    <doc> delete the resource, use delete method</doc>
+  </descriptor>
+
+  <descriptor id="form" type="semantic">
+    <doc> the default form is for every link such as create or update, if the same name method is not defined</doc>
+  </descriptor>
+
+  <descriptor id="method" type="semantic">
+    <doc> http verb such as post, put or delete</doc>
+  </descriptor>
+  
+  <descriptor id="title" type="semantic">
+    <doc> a human readable description for date</doc>
+  </descriptor>
