@@ -1,6 +1,8 @@
 在HAL中使用集合
 =============
 
+相关链接：<http://stateless.co/hal_specification.html>
+
 在不破坏HAL优雅结构的情况下，我定义了一种通用的profile来表达集合的语义。
 <br/>使用这些关键字，最简单的方法是使用`curies`语法。
 
