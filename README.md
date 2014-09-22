@@ -22,8 +22,8 @@ GET "/customers"
       "href": "http://hotmoon.org/docs/rels/collection#{rel}", 
       "templated": true }]},
   "m:schema": "collection",
-  "m:forms": {
-    "form": {
+  "m:fields": {
+    "default": {
       "name": {"type":"text"}, 
       "email": {"type":"email"}}
   },
@@ -52,7 +52,7 @@ GET "/customers/1"
       "href": "http://hotmoon.org/docs/rels/collection#{rel}", 
       "templated": true }]},
   "m:schema": "resource",
-  "m:forms": {
+  "m:fields": {
     "update": {
       "name": {"type":"text"}, 
       "email": {"type":"email"}}
@@ -70,7 +70,7 @@ GET "/customers/1"
 * items
 * properties
 * actions
-* forms
+* fields
 
 schema
 ------
@@ -124,7 +124,7 @@ items
 }
 ```
 
-请注意，上面的例子中，被嵌入的资源除了已经指定的`self`链接关系，还包含了两个默认的链接关系：`update`、`delete`。其中`update`所需要的表单，默认是使用最外围`m:forms`中所提供的有效表单。
+请注意，上面的例子中，被嵌入的资源除了已经指定的`self`链接关系还包含了两个默认的链接关系：`update`、`delete`。
 
 properties
 ----------
@@ -199,13 +199,13 @@ HTTP方法。在已知方法中是可选的，如果是新方法则必须指定�
 ###title
 链接标题。可选。
 
-forms
------
-如果存在http的动作为`post`、`put`或`patch`等不安全的方法，则需要实现这个字段，否则客户端将无法自动判断需要填写的表单类型。
+fields
+------
+字段描述，很多时候是为了描述表单。如果存在http的动作为`post`、`put`或`patch`等不安全的方法，则需要实现这个字段，否则客户端将无法自动判断需要填写的表单类型。
 
 ```json
 {
-  "{action_form}": {
+  "{action_name}": {
     "{filed}": {"type":"", "title":"", "value":""}, 
     "{filed}": {"type":"", "title":"", "value":""}, 
     ...
@@ -213,27 +213,8 @@ forms
 }
 ```
 
-###{action_form}
-表单对应的动作名称。一般为`form`。
-
-`form`是一个默认的表单名，当前资源状态下的所有链接关系用到的表单都可以默认使用。
-典型的场景如：在集合查询中，既要集合中创建新资源的方法，又要支持资源列表中某一项的修改资源方法。
-
-如果某个链接关系需要特定的表单，则可以将`form`改为自己的动作名称，例如`create`、`put`。这样就可以拥有一个独立的表单了。
-
-实际上，HAL中指定的链接关系`self`也被扩展了。与其他方法一样，可以指定`self`的元数据描述。这有助于在展现列表或只读表单时编写智能的客户端代码。
-
-```json
-  {
-    ...
-    "m:forms": {
-      "self": {
-        "id": {"title": "ID"},
-        "name": {"title":"名称"}, 
-        "email": {"title":"邮件", "type":"email"}}
-    },
-  }
-```
+###{action_name}
+表单对应的同名动作名称，如`create`, `update`。如果没有对应的表单名，就使用`default`。
 
 ###{filed}
 用户根据业务定义的、机器可读的字段名。
@@ -257,6 +238,24 @@ forms
 高级用法
 -------
 
+###表单校验
+可扩展`fields`描述，使用HTML5的惯用的表单校验方法。
+
+###集合或资源中的`self`自描述
+实际上，HAL中指定的链接关系`self`也被扩展了，但不使用默认的`default`字段描述，而是必须特别指定。这同样有助于在展现列表或只读表单时编写智能的客户端代码。
+
+```json
+  {
+    ...
+    "m:fields": {
+      "self": {
+        "id": {"title": "ID"},
+        "name": {"title":"名称"}, 
+        "email": {"title":"邮件", "type":"email"}}
+    },
+  }
+```
+
 ###直接支持集合的创建和删除
 虽然这不是通常的做法，但你有时也许确实可以考虑。
 <br/>下面是一个例子，支持直接创建一个集合和删除一个集合。
@@ -276,4 +275,5 @@ forms
   ...
 }    
 ```
+
 
