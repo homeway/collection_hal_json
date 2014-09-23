@@ -1,13 +1,15 @@
-在HAL中使用集合
-=============
+兼容HAL的Collection.Hal
+======================
 
 相关链接：
 
 * [HAL语义说明](http://stateless.co/hal_specification.html)
 * [HAL开发包](https://github.com/mikekelly/hal_specification/wiki/Libraries)
 
-在不破坏HAL优雅结构的情况下，我定义了一种通用的profile来表达集合的语义。
-<br/>使用这些关键字，最简单的方法是使用`curies`语法。
+在不破坏HAL优雅结构的情况下，我定义了一种兼容的媒体类型：
+application/collection_hal+json
+
+这是与HAL完全兼容的语义，但进一步规范了集合和单个资源的应用语义描述。
 
 例子
 ---
@@ -17,17 +19,13 @@ GET "/customers"
 {
   "_links":{
     "self": {"href": "/customers"},
-    "curies": [{ 
-      "name": "m", 
-      "href": "http://hotmoon.org/docs/rels/collection#{rel}", 
-      "templated": true }]},
-  "m:schema": "collection",
-  "m:fields": {
+  "_schema": "collection",
+  "_fields": {
     "create": {
       "name": {"type":"text"}, 
       "email": {"type":"email"}}
   },
-  "m:actions": {"create":{}},
+  "_actions": {"create":{}},
   "_embedded":{
     "m:items":[]
   }
@@ -47,42 +45,43 @@ GET "/customers/1"
 {
   "_links":{
     "self": {"href": "/customers/1"},
-    "curies": [{ 
-      "name": "m", 
-      "href": "http://hotmoon.org/docs/rels/collection#{rel}", 
-      "templated": true }]},
-  "m:schema": "resource",
-  "m:fields": {
+  "_schema": "resource",
+  "_fields": {
     "update": {
       "name": {"type":"text"}, 
       "email": {"type":"email"}}
   },
-  "m:actions": {"delete":{}, "update":{}},
-  "m:properties":{
+  "_actions": {"delete":{}, "update":{}},
+  "_properties":{
     "name": "adi", 
     "email": "adi@gmail.com"}
 }
 ```
 
-关键字定义
---------
-* schema
-* items
-* properties
-* actions
-* fields
+增加的关键字定义
+-------------
+* _schema
+* _items
+* _properties
+* _actions
+* _fields
 
-schema
+_schema
 ------
-`schema`的取值为"collection"或"resource"，分别表示集合或单个资源。
+`_schema`的取值为"collection"或"resource"，分别表示集合或单个资源。
 <br/>这里强制要求了资源表述中不应该同时包含集合模型和单个资源模型。
 
 ###collection
 集合模型。
-<br>默认的集合模型，提供了集合的列表查询、向集合中添加新的资源等方法：
+<br>默认的集合模型具有列表查询、向集合中添加新的资源等方法：
 
 * self
 * create
+
+而被嵌入的资源，默认具有资源查询和删除的方法：
+
+* self
+* delete
 
 ###resource
 单个资源模型。
@@ -93,7 +92,7 @@ schema
 * update
 * delete
 
-items
+_items
 -----
 如果选择了`collection`模式，意味着`_embedded`中应包含的`items`来表示资源列表。
 
@@ -101,18 +100,16 @@ items
 {
   ...
   "_embedded":{
-    "m:items":[
+    "_items":[
       {
         "_links":{"self": { "href": "/customers/101" }},
-        "m:schema": "resource",
-        "m:properties":{
+        "_properties":{
           "id": 101,
           "name": "adi", 
           "email": "adi@gmail.com"}},
       {
         "_links":{"self": { "href": "/customers/102" }},
-        "m:schema": "resource",
-        "m:properties":{
+        "_properties":{
           "id": 102,
           "name": "adi", 
           "email": "adi@gmail.com"}
@@ -124,24 +121,22 @@ items
 }
 ```
 
-请注意，上面的例子中，被嵌入的资源除了已经指定的`self`链接关系还包含了两个默认的链接关系：`update`、`delete`。
-
-properties
-----------
+_properties
+-----------
 如果选择了`resource`，则应提供`properties`来描述资源本身的属性。
 
 ```json
 {
   ...
-  "m:properties":{
+  "_properties":{
     "id": 102,
     "name": "adi", 
     "email": "adi@gmail.com"}
 }
 ```
 
-actions
--------
+_actions
+--------
 如果希望客户端自动发现可用的操作，可以定义这个选项。
 <br/>这比协议语义上的`OPTIONS`方法有更具体的应用语义。
 <br/>服务端在提供这个选项时还可以建立在授权机制的基础上。
@@ -171,7 +166,7 @@ actions
 ```json
 {
   ...
-  "m:actions": {}
+  "_actions": {}
 }
 ```
 
@@ -180,7 +175,7 @@ actions
 ```json
 {
   ...
-  "m:actions":{
+  "_actions":{
     "modify_password": {
       "href": "/customers/102/modify_password",
       "method": "patch"},
@@ -247,7 +242,7 @@ fields
 ```json
   {
     ...
-    "m:fields": {
+    "_fields": {
       "self": {
         "id": {"title": "ID"},
         "name": {"title":"名称"}, 
@@ -263,7 +258,7 @@ fields
 ```json
 {
   ...
-  "m:actions": {
+  "_actions": {
     "create_cagtegory":{
       "href":"/customers/{category}", 
       "templated":true, 
