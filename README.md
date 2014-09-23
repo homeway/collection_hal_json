@@ -23,7 +23,7 @@ GET "/customers"
       "templated": true }]},
   "m:schema": "collection",
   "m:fields": {
-    "default": {
+    "create": {
       "name": {"type":"text"}, 
       "email": {"type":"email"}}
   },
@@ -158,7 +158,7 @@ actions
 ###action
 为动作起的名字，例如："create"，就是一个保留的名字
 
-下面是使用预定义的action：
+下面是预定义的action：
 
 * create，向集合内添加新的资源。默认为`collection`所有。
 * update，修改资源。默认为`resource`所有。
@@ -214,7 +214,7 @@ fields
 ```
 
 ###{action_name}
-表单对应的同名动作名称，如`create`, `update`。如果没有对应的表单名，就使用`default`。
+表单对应的同名动作名称，如`create`, `update`。
 
 ###{filed}
 用户根据业务定义的、机器可读的字段名。
@@ -235,14 +235,14 @@ fields
 ###value
 默认值。可选。
 
-高级用法
+高级主题
 -------
 
 ###表单校验
 可扩展`fields`描述，使用HTML5的惯用的表单校验方法。
 
 ###集合或资源中的`self`自描述
-实际上，HAL中指定的链接关系`self`也被扩展了，但不使用默认的`default`字段描述，而是必须特别指定。这同样有助于在展现列表或只读表单时编写智能的客户端代码。
+实际上，HAL中指定的链接关系`self`也被扩展了，可以通过`m:fields:{"self":{...}}`来描述应该如何展现资源，这同样利于编写智能的客户端代码。
 
 ```json
   {
