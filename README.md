@@ -27,7 +27,7 @@ GET "/customers"
   },
   "_actions": {"create":{}},
   "_embedded":{
-    "m:items":[]
+    "_items":[]
   }
 }
 ```
@@ -94,7 +94,7 @@ _schema
 
 _items
 -----
-如果选择了`collection`模式，意味着`_embedded`中应包含的`items`来表示资源列表。
+如果选择了`collection`模式，意味着`_embedded`中应包含的`_items`来表示资源列表。
 
 ```json
 {
@@ -123,7 +123,7 @@ _items
 
 _properties
 -----------
-如果选择了`resource`，则应提供`properties`来描述资源本身的属性。
+如果选择了`resource`，则应提供`_properties`来描述资源本身的属性。
 
 ```json
 {
@@ -159,7 +159,7 @@ _actions
 * update，修改资源。默认为`resource`所有。
 * delete，删除资源。默认为`resource`所有。
 
-按照默认的规则，上面集合示例中的`actions`部分是可以省略的。
+按照默认的规则，上面集合示例中的`_actions`部分是可以省略的。
 
 下面的例子对集合作了只读配置：
 
@@ -194,7 +194,7 @@ HTTP方法。在已知方法中是可选的，如果是新方法则必须指定�
 ###title
 链接标题。可选。
 
-fields
+_fields
 ------
 字段描述，很多时候是为了描述表单。如果存在http的动作为`post`、`put`或`patch`等不安全的方法，则需要实现这个字段，否则客户端将无法自动判断需要填写的表单类型。
 
@@ -234,10 +234,10 @@ fields
 -------
 
 ###表单校验
-可扩展`fields`描述，使用HTML5的惯用的表单校验方法。
+可扩展`_fields`描述，使用HTML5的惯用的表单校验方法。
 
 ###集合或资源中的`self`自描述
-实际上，HAL中指定的链接关系`self`也被扩展了，可以通过`m:fields:{"self":{...}}`来描述应该如何展现资源，这同样利于编写智能的客户端代码。
+实际上，HAL中指定的链接关系`self`也被扩展了，可以通过`_fields:{"self":{...}}`来描述应该如何展现资源，这同样利于编写智能的客户端代码。
 
 ```json
   {
